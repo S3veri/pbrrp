@@ -33,12 +33,12 @@ class Asiakas:
         if uusinimi == False:
             raise ValueError("Anna toinen nimi!")
         if uusinimi == True:
-            self.nimi = uusinimi
+            self.__nimi = uusinimi
     def set_ika(self, uusiika):
         if uusiika == False:
             raise ValueError("Anna toinen ika!")
         if  uusiika == True:
-            self.ika = uusiika
+            self.__ika = uusiika
 
     def get_asiakasnumero(self):
         """Palautetaan asiakasnumero
@@ -46,35 +46,34 @@ class Asiakas:
         return f'{self.__asiakasnumero[0]:02}-{self.__asiakasnumero[1]:03}-{self.__asiakasnumero[2]:03}'
 
 
-class Palvelu:
+class Palvelu(Asiakas):
     def __init__(self, tuotenimi):
         self.tuotenimi = tuotenimi
-        self.__asiakkaat = []
+        self.asiakkaat = []
         
-    def lisaa_asiakas(self, asiakas):
-        if bool(asiakas):
-            self.__asiakkaat.append(asiakas)
-        else:
+    def lisaa_asiakas(self, Asiakas):
+        self.asiakkaat.append(Asiakas)
+        if Asiakas == False:
             raise ValueError("Anna toinen asiakas")
         
-        
-        
-    def poista_asiakas(self, asiakas):
+    def poista_asiakas(self, Asiakas):
         try:
-            self.asiakkaat.remove(asiakas)
-        except ValueError:
+            if Asiakas == False:
+                raise ValueError("Anna uusi asiakas")
+            else:
+                self.asiakkaat.pop(Asiakas)
+        except:
             pass
     def tulosta_asiakkaat(self):
-        # Alla oleva print ei jostain syystä toimi, muuten ok
-        #print("Tuotteen " + self.tuotenimi +  " asiakkaat ovat:")
-        for asiakas in self.__asiakkaat:
-            print(self._luo_asiakasrivi(asiakas))
+        print("Tuotteen" + " " + self.tuotenimi + " " + "Asiakkaat ovat:")
+        for Asiakas in self.asiakkaat:
+            print(self._luo_asiakasrivi(Asiakas))
         print()
     
-    def _luo_asiakasrivi(self, asiakas):
+    def _luo_asiakasrivi(self, Asiakas):
         """Palauttaa tiedot asiakkaan nimi, asiakasnumero ja ika.
         """
-        return f'{Asiakas.get_nimi(asiakas)} ({Asiakas.get_asiakasnumero(asiakas)}) on {Asiakas.get_ika(asiakas)}-vuotias.'
+        return f'{Asiakas.get_nimi(Asiakas)} ({Asiakas.get_asiakasnumero(Asiakas)}) on {Asiakas.get_ika(Asiakas)}-vuotias.'
 
 class ParempiPalvelu(Palvelu):
     def __init__(self, tuotenimi):
@@ -94,9 +93,7 @@ class ParempiPalvelu(Palvelu):
             pass
             
     def tulosta_edut(self):
-        print("Tuotteen " + self.tuotenimi + " edut ovat")
-        for etu in self.__edut:
-            print(f'{etu}')
-    
+        pass
+    pass
 
 
